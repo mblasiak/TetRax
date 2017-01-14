@@ -8,7 +8,7 @@ from direct.actor.Actor import Actor
 class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
-
+        '''
         # Load the environment model.
         self.scene = self.loader.loadModel("models/environment")
         # Reparent the model to render.
@@ -27,13 +27,14 @@ class MyApp(ShowBase):
         self.pandaActor.reparentTo(self.render)
         # Loop its animation.
         self.pandaActor.loop("walk")
-        self.pud=self.pudlo()
-        self.pud.setPozVar(3,3,3)
-        self.pud.setPoz()
+        '''
+
+
         self.L=self.Lway()
-
-
-
+        self.L.changePozVar(0,50,5)
+        self.L.updatePoz()
+        #taskMgr.doMethodLater(1, 'DP')
+        self.fall(self.L)
 
 
     # Define a procedure to move the camera.
@@ -71,30 +72,34 @@ class MyApp(ShowBase):
             self.p0.setPoz()
 
             self.p1=MyApp.pudlo()
-            self. p1.setPozVar(self.x,self.y+2,self.z)
+            self. p1.setPozVar(self.x,self.y,self.z+2)
             self. p1.setPoz()
             self. p2=MyApp.pudlo()
-            self. p2.setPozVar(self.x+2,self.y+2,self.z)
+            self. p2.setPozVar(self.x+2,self.y,self.z+2)
             self. p2.setPoz()
 
             self.p3=MyApp.pudlo()
-            self.p3.setPozVar(self.x+4,self.y+2,self.z)
+            self.p3.setPozVar(self.x+4,self.y,self.z+2)
             self.p3.setPoz()
         def updatePoz(self):
             self.p0.setPozVar(self.x,self.y,self.z)
             self.p0.setPoz()
-            self. p1.setPozVar(self.x,self.y+2,self.z)
+            self. p1.setPozVar(self.x,self.y,self.z+2)
             self. p1.setPoz()
-            self. p2.setPozVar(self.x+2,self.y+2,self.z)
+            self. p2.setPozVar(self.x+2,self.y,self.z+2)
             self. p2.setPoz()
-            self.p3.setPozVar(self.x+4,self.y+2,self.z)
+            self.p3.setPozVar(self.x+4,self.y,self.z+2)
             self.p3.setPoz()
         def changePozVar(self,X,Y,Z):
             self.x=X
             self.y=Y
             self.z=Z
-
-
-
+        def IncPoz(self,X,Y,Z):
+            self.x=self.x+X
+            self.y=self.y+Y
+            self.z=self.z+Z
+    def fall(self,obj):
+        obj.IncPoz(0,0,-10)
+        obj.updatePoz()
 app = MyApp()
 app.run()

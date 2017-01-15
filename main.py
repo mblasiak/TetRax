@@ -2,6 +2,7 @@ from math import pi, sin, cos
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
+#from direct.task.Task import Task
 from direct.actor.Actor import Actor
 
 
@@ -29,12 +30,17 @@ class MyApp(ShowBase):
         self.pandaActor.loop("walk")
         '''
 
-
+        self.wall=self.loader.loadModel("graund.egg")
+        self.wall.reparentTo(self.render)
+        self.wall.setPos(0,100,-20)
         self.L=self.Lway()
-        self.L.changePozVar(0,50,5)
+        self.L.changePozVar(0,100,5)
         self.L.updatePoz()
         #taskMgr.doMethodLater(1, 'DP')
-        self.fall(self.L)
+        #self.task=Task(self.fall(self.L))
+        self.taskMgr.add(self.fall, 'MyTaskName', extraArgs=[self.L])
+        #self.taskMgr.add(self.task, "Fall")
+        #self.fall(self.L)
 
 
     # Define a procedure to move the camera.
@@ -59,6 +65,10 @@ class MyApp(ShowBase):
             self.z=Z
         def setPoz(self):
             self.pudlo.setPos(self.x,self.y,self.z)
+
+   # class PlayBox():
+    #    def __init__(self):
+
 
 
     class Lway():
@@ -99,7 +109,11 @@ class MyApp(ShowBase):
             self.y=self.y+Y
             self.z=self.z+Z
     def fall(self,obj):
-        obj.IncPoz(0,0,-10)
+        obj.IncPoz(0,0,-0.01)
         obj.updatePoz()
+        print("1")
+        return Task.cont
+
+
 app = MyApp()
 app.run()

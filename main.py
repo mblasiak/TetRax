@@ -9,7 +9,9 @@ from direct.actor.Actor import Actor
 class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
-        self.camera.setPos(0,0,0)
+        self.camera.setPos(0,20,40)
+        self.disableMouse()
+        self.camera.setHpr(0,-25,0)
        # self.lens.setFov(100)
         '''
         # Load the environment model.
@@ -31,10 +33,10 @@ class MyApp(ShowBase):
         # Loop its animation.
         self.pandaActor.loop("walk")
         '''
-
         self.wall=self.loader.loadModel("line2.egg")
         self.wall.reparentTo(self.render)
         self.wall.setPos(-0.5,100,-21)
+
         self.L=self.Lway(4)
         self.x=self.L
         self.L.changePozVar(1,100,-14)
@@ -377,7 +379,7 @@ class MyApp(ShowBase):
                     self.tab[obj.logZ-1][obj.logX ] = 1
                     self.tab[obj.logZ - 2][obj.logX] = 1
                     self.tab[obj.logZ - 2][obj.logX -1] = 1
-            print self.tab
+
     def log(self,obj,coll,groud):
         self.flag=0
         if(obj.logZ>19):
@@ -401,8 +403,16 @@ class MyApp(ShowBase):
                                     self.flag=1
                                     groud.boxTab[k-1][p].exsist = 1
                         break
-
-
+        '''
+        for i in range(20):
+            self.counter = 0
+            for j in range(10):
+                if(groud.boxTab[i][j]==1):
+                    self.counter=self.counter+1
+            if(self.counter>9):
+                for j in range(10):
+                    groud.boxTab[i][j] =0
+            '''
         if(self.flag==1):
             obj.moveUp()
             obj.moveUp()

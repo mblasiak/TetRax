@@ -2,7 +2,7 @@ from math import pi, sin, cos
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
-#from direct.task.Task import Task
+#from direct.task.Task import Tasks
 from direct.actor.Actor import Actor
 
 
@@ -12,45 +12,20 @@ class MyApp(ShowBase):
         self.camera.setPos(0,45,52)
         self.disableMouse()
         self.camera.setHpr(0,-40,0)
-       # self.lens.setFov(100)
-        '''
-        # Load the environment model.
-        self.scene = self.loader.loadModel("models/environment")
-        # Reparent the model to render.
-        self.scene.reparentTo(self.render)
-        # Apply scale and position transforms on the model.
-        self.scene.setScale(0.25, 0.25, 0.25)
-        self.scene.setPos(-8, 42, 0)
-
-        # Add the spinCameraTask procedure to the task manager.
-        self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
-
-        # Load and transform the panda actor.
-        self.pandaActor = Actor("models/panda-model",
-                                {"walk": "models/panda-walk4"})
-        self.pandaActor.setScale(0.005, 0.005, 0.005)
-        self.pandaActor.reparentTo(self.render)
-        # Loop its animation.
-        self.pandaActor.loop("walk")
-        '''
         self.wall=self.loader.loadModel("line2.egg")
         self.wall.reparentTo(self.render)
         self.wall.setPos(-0.2,100,-21)
 
-        self.L=self.cube(1)
-        self.x=self.L
+
+        self.L=self.Lway(1)
         self.L.changePozVar(1,100,14)
         self.z=self.fillUp()
         self.tabus=self.coll()
         self.info=self.objInfo(0,0,0,1,1)
         self.ster(self.L)
-       # self.taskMgr.add(self.printlogs,'print Log',extraArgs=[self.info,self.L])
         self.taskMgr.add(self.fall, 'fall', extraArgs=[self.L])
-      #  self.taskMgr.add(self.ster,'steer', extraArgs=[self.L])
-      #  self.taskMgr.add(self.printPos,'posPrint', extraArgs=[self.L])
-       # self.taskMgr.add(self.log,"logic",extraArgs=[self.L,self.tabus,self.z])
         self.taskMgr.add(self.betterlogic, "logic", extraArgs=[self.L, self.tabus, self.z])
-        #self.taskMgr.add(self.logic,'test',extraArgs=[self.L,self.z])
+
 
     class pudlo():
         def __init__(self):
@@ -456,12 +431,6 @@ class MyApp(ShowBase):
         obj.IncPoz(0,0,-0.01)
         obj.updatePoz()
         return Task.cont
-    def printPos(self,obj):
-        print(obj.x)
-        print(obj.y)
-        print(obj.z)
-        print ("/\/\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ ")
-        return Task.cont
 
     class fillUp(pudlo):
         class cell():
@@ -496,57 +465,6 @@ class MyApp(ShowBase):
                         self.boxTab[i][j].boxHold.Show()
                     if(self.boxTab[i][j].boxHold.showStatus == 1 and self.boxTab[i][j].exsist==0):
                         self.boxTab[i][j].boxHold.notShow()
-
-    ''' def logic(self,obj,ground):
-        if(isinstance(obj,self.Lway)):
-            if(obj.state==4):
-                if(obj.logZ>19):
-                    obj.moveUp()
-                    obj.moveUp()
-                    print(obj.logX,obj.logZ)
-                    ground.boxTab[int(obj.logZ+1)][obj.logX].exsist=1
-                    ground.boxTab[int(obj.logZ-1)][obj.logX-1].exsist = 1
-                    ground.boxTab[int(obj.logZ-1)][obj.logX].exsist = 1
-                    ground.boxTab[int(obj.logZ)][obj.logX].exsist = 1
-
-                if(obj.logZ<19):
-                    if(ground.boxTab[int(obj.logZ)][obj.logX].exsist==1 or ground.boxTab[int(obj.logZ-2)][obj.logX-1].exsist==1):
-
-                        ground.boxTab[int(obj.logZ-3)][obj.logX].exsist=1
-                        ground.boxTab[int(obj.logZ-3)][obj.logX-1].exsist = 1
-                        ground.boxTab[int(obj.logZ-2)][obj.logX].exsist = 1
-                        ground.boxTab[int(obj.logZ-1)][obj.logX].exsist = 1
-                        obj.moveUp()
-                        obj.moveUp()
-                        obj.moveUp()
-                        obj.moveUp()
-            if (obj.state == 3):
-                if (obj.logZ > 19):
-                    obj.moveUp()
-                    obj.moveUp()
-                    print(obj.logX, obj.logZ)
-                    ground.boxTab[int(obj.logZ + 1)][obj.logX].exsist = 1
-                    ground.boxTab[int(obj.logZ +1)][obj.logX +1].exsist = 1
-                    ground.boxTab[int(obj.logZ +1)][obj.logX+2].exsist = 1
-                    ground.boxTab[int(obj.logZ)][obj.logX+2].exsist = 1
-
-                if (obj.logZ < 19):
-                    if (ground.boxTab[int(obj.logZ)][obj.logX].exsist == 1 or ground.boxTab[int(obj.logZ - 2)][
-                            obj.logX - 1].exsist == 1):
-                        ground.boxTab[int(obj.logZ - 3)][obj.logX].exsist = 1
-                        ground.boxTab[int(obj.logZ - 3)][obj.logX - 1].exsist = 1
-                        ground.boxTab[int(obj.logZ - 2)][obj.logX].exsist = 1
-                        ground.boxTab[int(obj.logZ - 1)][obj.logX].exsist = 1
-                        obj.moveUp()
-                        obj.moveUp()
-                        obj.moveUp()
-                        obj.moveUp()
-
-
-
-
-        ground.showBox()
-        return Task.cont'''
 
     class coll():
         def __init__(self):

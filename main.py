@@ -577,7 +577,7 @@ class MyApp(ShowBase):
     def betterlogic(self,obj,coll,groud):
 
         self.pom=MyApp.colide(self,obj,coll,groud)
-        print self.pom
+
         self.fallhit=self.pom[0]
         if(self.fallhit==1):
             for k in range(20):
